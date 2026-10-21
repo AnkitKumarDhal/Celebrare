@@ -1,4 +1,11 @@
-import { useEffect, useReducer } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+  type ChangeEvent,
+} from "react";
 import useFetchPhotos from "./hooks/useFetchPhotos";
 import PhotoCard from "./components/PhotoCard";
 
@@ -34,9 +41,21 @@ function getInitFavs(): string[] {
 
 export default function App() {
   const { photos, loading, error } = useFetchPhotos();
+  const [searchQuery, setSearchQuery] = useState("");
   const [favs, dispatch] = useReducer(favortiesReducer, [], () =>
     getInitFavs(),
   );
+
+  const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.currentTarget.value);
+  }, []);
+
+  const filteredPhotos = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    return photos.filter((photo) =>
+      photo.author.toLowerCase().includes(normalizedQuery),
+    );
+  }, [photos, searchQuery]);
 
   useEffect(() => {
     localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favs));
@@ -74,16 +93,34 @@ export default function App() {
     <main className="min-h-screen bg-gray-50 p-6">
       <h1 className="mb-6 text-3xl font-bold text-gray-900">Photo Gallery</h1>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {photos.map((photo) => (
-          <PhotoCard
-            key={photo.id}
-            photo={photo}
-            isFavorite={favs.includes(photo.id)}
-            onToggleFav={handleToggleFav}
-          />
-        ))}
-      </div>
+      <label htmlFor="author-search" className="mb-6 block">
+        <span className="sr-only">Search by author name</span>
+        <input
+          id="author-search"
+          type="search"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Search by author..."
+          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </label>
+
+      {filteredPhotos.length === 0 ? (
+        <p className="text-center text-gray-600">
+          No photos match "{searchQuery}"
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {filteredPhotos.map((photo) => (
+            <PhotoCard
+              key={photo.id}
+              photo={photo}
+              isFavorite={favs.includes(photo.id)}
+              onToggleFav={handleToggleFav}
+            />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
