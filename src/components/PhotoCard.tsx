@@ -12,7 +12,7 @@ export default function PhotoCard({
   onToggleFav,
 }: PhotoCardProps) {
   return (
-    <article className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <article className="overflow-hidden rounded-xl border border-sage/20 bg-surface shadow-sm">
       <div className="relative aspect-4/3">
         <img
           src={photo.download_url}
@@ -30,7 +30,7 @@ export default function PhotoCard({
               : `Add ${photo.author} to favourites`
           }
           aria-pressed={isFavorite}
-          className={`absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow ${isFavorite ? "text-rose-600" : "text-gray-500 hover:text-rose-600"}`}
+          className={`absolute right-3 top-3 rounded-full bg-surface/90 p-2 shadow ${isFavorite ? "text-sage" : "text-sage/70 hover:text-sage"}`}
         >
           <svg
             aria-hidden="true"
@@ -50,7 +50,7 @@ export default function PhotoCard({
       </div>
 
       <div className="p-4">
-        <p className="font-medium text-gray-800">{photo.author}</p>
+        <p className="font-medium text-text">{photo.author}</p>
       </div>
     </article>
   );

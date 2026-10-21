@@ -67,12 +67,12 @@ export default function App() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-50">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-canvas">
         <span
           aria-hidden="true"
-          className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"
+          className="h-10 w-10 animate-spin rounded-full border-4 border-recessed border-t-sage"
         />
-        <p role="status" className="text-gray-600">
+        <p role="status" className="text-sage">
           Loading photos...
         </p>
       </main>
@@ -81,7 +81,7 @@ export default function App() {
 
   if (error) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-canvas p-6">
         <p role="alert" className="rounded-lg bg-red-100 p-4 text-red-700">
           Could not load photos: {error}
         </p>
@@ -90,8 +90,8 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <h1 className="mb-6 text-3xl font-bold text-gray-900">Photo Gallery</h1>
+    <main className="min-h-screen bg-canvas p-6">
+      <h1 className="mb-6 text-3xl font-bold text-text">Photo Gallery</h1>
 
       <label htmlFor="author-search" className="mb-6 block">
         <span className="sr-only">Search by author name</span>
@@ -101,14 +101,12 @@ export default function App() {
           value={searchQuery}
           onChange={handleSearch}
           placeholder="Search by author..."
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-sage/30 bg-recessed px-4 py-3 text-text focus:outline-none focus:ring-2 focus:ring-sage"
         />
       </label>
 
       {filteredPhotos.length === 0 ? (
-        <p className="text-center text-gray-600">
-          No photos match "{searchQuery}"
-        </p>
+        <p className="text-center text-text">No photos match "{searchQuery}"</p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {filteredPhotos.map((photo) => (
