@@ -1,9 +1,48 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
   --color-canvas: #f4f5ef;
   --color-surface: #fffefa;
   --color-recessed: #e5ebe2;
   --color-sage: #66816a;
-  --color-text: #293520;
+  --color-text: #29352d;
+  --shadow-card:
+    inset 0 1px 0 rgb(255 255 255 / 0.95), 0 4px 12px rgb(41 53 45 / 0.12);
+  --shadow-card-hover:
+    inset 0 1px 0 rgb(255 255 255 / 0.95), 0 14px 28px rgb(41 53 45 / 0.18),
+    0 0 20px rgb(102 129 106 / 0.18);
+  --animate-gallery-enter: gallery-enter 450ms cubic-bezier(0.16, 1, 0.3, 1)
+    both;
+  --animate-heart-pop: heart-pop 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes gallery-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heart-pop {
+    0% {
+      transform: scale(0.85);
+    }
+    45% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 }
+
+@utility animation-delay-* {
+  animation-delay: calc(--value(integer) * 45ms);
+}
+
+@source inline("animation-delay-{0..29}");
